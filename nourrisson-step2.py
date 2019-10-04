@@ -9,10 +9,7 @@ import csv
 # Déclaration des variables
 ages = range(61)
 
-ages_donnees = []
-weights_donnees = []
-heights_donnees = []
-skulls_donnees = []
+mesures_csv = {'mois' : [], 'weights' : [], 'heights' : [], 'skulls' : []}
 
 config_boys = {
     'weights' : [ ['05', 'poids-age-garcon-0-60.csv', 8],     ['25', 'poids-age-garcon-0-60.csv', 11],     ['50', 'poids-age-garcon-0-60.csv', 12],     ['75', 'poids-age-garcon-0-60.csv', 13],     ['95', 'poids-age-garcon-0-60.csv', 16]     ],
@@ -62,18 +59,16 @@ def mise_en_liste_constantes(csv_file_path, col):
 def mise_en_liste_donnees(csv_file_path):
     index_csv = 0
     
-    global ages_donnees, weights_donnees, heights_donnees, skulls_donnees
+    global mesures_csv
 
     csv_file = open(csv_file_path, "r")
     try:
         csv_reader = csv.reader(csv_file, delimiter=';')
         for row in csv_reader:
             if index_csv > 0:
-                # Prendre la première colonne pour connaitre le mois
-                ages_donnees.append(int(row[0]))
-                weights_donnees.append(float(row[1]))
-                heights_donnees.append(float(row[2]))
-                skulls_donnees.append(float(row[3]))
+                mesures_csv['mois'].append(int(row[0]))
+                for k,v in {'weights': 1, 'heights': 2, 'skulls': 3}.items():
+                    mesures_csv[k].append(float(row[v]))
             index_csv += 1
     except:
         print(f"Sortie sur erreur !")
@@ -113,9 +108,7 @@ import matplotlib.pyplot as plt
 plt.figure(1)
 
 # Fonction de créationn d'un graphique
-def creer_graphique(emplacement, type, place_legend, donnees, marker_type, marker_color, label_x, label_y, liste_axe_y):
-    global ages_donnees
-
+def creer_graphique(emplacement, type, place_legend, ages_donnees, donnees, marker_type, marker_color, label_x, label_y, liste_axe_y):
     plt.subplot(1, 3, emplacement)
 
     line1, line2, line3, line4, line5 = plt.plot(
@@ -140,13 +133,13 @@ def creer_graphique(emplacement, type, place_legend, donnees, marker_type, marke
     axes.yaxis.grid(True, color = '#bdbdbd')
 
 # Définition du sous graphique 1
-creer_graphique(1, 'weights', 'upper left', weights_donnees, 'o', 'black', "Age en mois", "Poids en kg", [2.5, 5.0, 7.5, 10.0, 12.5, 15.0, 17.5, 20.0, 22.5])
+creer_graphique(1, 'weights', 'upper left', mesures_csv['mois'], mesures_csv['weights'], 'o', 'black', "Age en mois", "Poids en kg", [2.5, 5.0, 7.5, 10.0, 12.5, 15.0, 17.5, 20.0, 22.5])
 
 # Définition du sous graphique 2
-creer_graphique(2, 'heights', 'upper left', heights_donnees, 'o', 'black', "Age en mois", "Taille en cm", range(50, 120, 10))
+creer_graphique(2, 'heights', 'upper left', mesures_csv['mois'], mesures_csv['heights'], 'o', 'black', "Age en mois", "Taille en cm", range(50, 120, 10))
 
 # Définition du sous graphique 3
-creer_graphique(3, 'skulls', 'lower right', skulls_donnees, 'o', 'black', "Age en mois", "Périmètre cranien en cm", range(35, 55, 5))
+creer_graphique(3, 'skulls', 'lower right', mesures_csv['mois'], mesures_csv['skulls'], 'o', 'black', "Age en mois", "Périmètre cranien en cm", range(35, 55, 5))
 
 # Affichage des graphiques
 plt.show()
