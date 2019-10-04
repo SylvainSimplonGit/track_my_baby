@@ -14,11 +14,24 @@ Il conviendra d'utiliser `pip` pour importer les librairies nécessaires sur son
 
 ## Résultats
 
+Pour lancer le script du step 1 :
+
+```cmd
+nourrisson-step1.py
+```
+
+Pour lancer le script du step 1 :
+
+```cmd
+nourrisson-step2.py
+```
+
 ### Point à retenir
 
 l'import de variables externes au script :
 Dans le fichier .py principal, pour accéder aux variables d'un autres fichier .py, il faut ajouter la commande **import** avant d'utiliser les variables en y ajoutant le nom du fichier externe.
 L'appel à la variable se fait en préfixant la variable par le nom du fichier externe.
+
 ```python
 import fichier_externe
 ...
