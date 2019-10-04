@@ -14,23 +14,19 @@ weights_donnees = []
 heights_donnees = []
 skulls_donnees = []
 
-col_weights_05 = 8
-col_weights_25 = 11
-col_weights_50 = 12
-col_weights_75 = 13
-col_weights_95 = 16
+config_boys = {
+    'weights' : [ ['05', 'poids-age-garcon-0-60.csv', 8],     ['25', 'poids-age-garcon-0-60.csv', 11],     ['50', 'poids-age-garcon-0-60.csv', 12],     ['75', 'poids-age-garcon-0-60.csv', 13],     ['95', 'poids-age-garcon-0-60.csv', 16]     ],
+    'heights' : [ ['05', 'taille-age-garcon-0-60.csv', 9],    ['25', 'taille-age-garcon-0-60.csv', 12],    ['50', 'taille-age-garcon-0-60.csv', 13],    ['75', 'taille-age-garcon-0-60.csv', 14],    ['95', 'taille-age-garcon-0-60.csv', 17]    ],
+    'skulls' :  [ ['05', 'perim-cra-age-garcon-0-60.csv', 9], ['25', 'perim-cra-age-garcon-0-60.csv', 12], ['50', 'perim-cra-age-garcon-0-60.csv', 13], ['75', 'perim-cra-age-garcon-0-60.csv', 14], ['95', 'perim-cra-age-garcon-0-60.csv', 17] ]
+}
 
-col_heights_05 = 9
-col_heights_25 = 12
-col_heights_50 = 13
-col_heights_75 = 14
-col_heights_95 = 17
+config_girls = {
+    'weights' : [ ['05', 'poids-age-fille-0-60.csv', 8],      ['25', 'poids-age-fille-0-60.csv', 11],      ['50', 'poids-age-fille-0-60.csv', 12],      ['75', 'poids-age-fille-0-60.csv', 13],      ['95', 'poids-age-fille-0-60.csv', 16]      ],
+    'heights' : [ ['05', 'taille-age-fille-0-60.csv', 9],     ['25', 'taille-age-fille-0-60.csv', 12],     ['50', 'taille-age-fille-0-60.csv', 13],     ['75', 'taille-age-fille-0-60.csv', 14],     ['95', 'taille-age-fille-0-60.csv', 17]     ],
+    'skulls' :  [ ['05', 'perim-cra-age-fille-0-60.csv', 9],  ['25', 'perim-cra-age-fille-0-60.csv', 12],  ['50', 'perim-cra-age-fille-0-60.csv', 13],  ['75', 'perim-cra-age-fille-0-60.csv', 14],  ['95', 'perim-cra-age-fille-0-60.csv', 17]  ]
+}
 
-col_skulls_05 = 9
-col_skulls_25 = 12
-col_skulls_50 = 13
-col_skulls_75 = 14
-col_skulls_95 = 17
+data_dict = { 'weights':{}, 'heights':{}, 'skulls':{} }
 
 # IHM pour connaitre le genre à afficher
 # Fonction pour valider le genre entré
@@ -50,7 +46,7 @@ def mise_en_liste_constantes(csv_file_path, col):
     index = 0
     temp_liste = []
 
-    csv_file = open(csv_file_path, "r")
+    csv_file = open('constantes-nourrissons/' + csv_file_path, "r")
     try:
         csv_reader = csv.reader(csv_file, delimiter=';')
         for row in csv_reader:
@@ -80,7 +76,7 @@ def mise_en_liste_donnees(csv_file_path):
                 skulls_donnees.append(float(row[3]))
             index_csv += 1
     except:
-        print(f"Sortie sur : {ValueError} !")
+        print(f"Sortie sur erreur !")
     finally:
         csv_file.close()
 
@@ -89,41 +85,13 @@ genre = entrer_genre()
 
 # Définition des variables en fonction du genre
 if genre == 'g':
-    weights_05 = mise_en_liste_constantes('constantes-nourrissons\poids-age-garcon-0-60.csv', col_weights_05)
-    weights_25 = mise_en_liste_constantes('constantes-nourrissons\poids-age-garcon-0-60.csv', col_weights_25)
-    weights_50 = mise_en_liste_constantes('constantes-nourrissons\poids-age-garcon-0-60.csv', col_weights_50)
-    weights_75 = mise_en_liste_constantes('constantes-nourrissons\poids-age-garcon-0-60.csv', col_weights_75)
-    weights_95 = mise_en_liste_constantes('constantes-nourrissons\poids-age-garcon-0-60.csv', col_weights_95)
-
-    heights_05 = mise_en_liste_constantes('constantes-nourrissons\\taille-age-garcon-0-60.csv', col_heights_05)
-    heights_25 = mise_en_liste_constantes('constantes-nourrissons\\taille-age-garcon-0-60.csv', col_heights_25)
-    heights_50 = mise_en_liste_constantes('constantes-nourrissons\\taille-age-garcon-0-60.csv', col_heights_50)
-    heights_75 = mise_en_liste_constantes('constantes-nourrissons\\taille-age-garcon-0-60.csv', col_heights_75)
-    heights_95 = mise_en_liste_constantes('constantes-nourrissons\\taille-age-garcon-0-60.csv', col_heights_95)
-
-    skulls_05 = mise_en_liste_constantes('constantes-nourrissons\perim-cra-age-garcon-0-60.csv', col_skulls_05)
-    skulls_25 = mise_en_liste_constantes('constantes-nourrissons\perim-cra-age-garcon-0-60.csv', col_skulls_25)
-    skulls_50 = mise_en_liste_constantes('constantes-nourrissons\perim-cra-age-garcon-0-60.csv', col_skulls_50)
-    skulls_75 = mise_en_liste_constantes('constantes-nourrissons\perim-cra-age-garcon-0-60.csv', col_skulls_75)
-    skulls_95 = mise_en_liste_constantes('constantes-nourrissons\perim-cra-age-garcon-0-60.csv', col_skulls_95)
+    for key, value in config_boys.items():
+        for datas in value:
+            data_dict[key][datas[0]] = mise_en_liste_constantes(datas[1], datas[2])
 else:
-    weights_05 = mise_en_liste_constantes('constantes-nourrissons\poids-age-fille-0-60.csv', col_weights_05)
-    weights_25 = mise_en_liste_constantes('constantes-nourrissons\poids-age-fille-0-60.csv', col_weights_25)
-    weights_50 = mise_en_liste_constantes('constantes-nourrissons\poids-age-fille-0-60.csv', col_weights_50)
-    weights_75 = mise_en_liste_constantes('constantes-nourrissons\poids-age-fille-0-60.csv', col_weights_75)
-    weights_95 = mise_en_liste_constantes('constantes-nourrissons\poids-age-fille-0-60.csv', col_weights_95)
-
-    heights_05 = mise_en_liste_constantes('constantes-nourrissons\\taille-age-fille-0-60.csv', col_heights_05)
-    heights_25 = mise_en_liste_constantes('constantes-nourrissons\\taille-age-fille-0-60.csv', col_heights_25)
-    heights_50 = mise_en_liste_constantes('constantes-nourrissons\\taille-age-fille-0-60.csv', col_heights_50)
-    heights_75 = mise_en_liste_constantes('constantes-nourrissons\\taille-age-fille-0-60.csv', col_heights_75)
-    heights_95 = mise_en_liste_constantes('constantes-nourrissons\\taille-age-fille-0-60.csv', col_heights_95)
-
-    skulls_05 = mise_en_liste_constantes('constantes-nourrissons\perim-cra-age-fille-0-60.csv', col_skulls_05)
-    skulls_25 = mise_en_liste_constantes('constantes-nourrissons\perim-cra-age-fille-0-60.csv', col_skulls_25)
-    skulls_50 = mise_en_liste_constantes('constantes-nourrissons\perim-cra-age-fille-0-60.csv', col_skulls_50)
-    skulls_75 = mise_en_liste_constantes('constantes-nourrissons\perim-cra-age-fille-0-60.csv', col_skulls_75)
-    skulls_95 = mise_en_liste_constantes('constantes-nourrissons\perim-cra-age-fille-0-60.csv', col_skulls_95)
+    for key, value in config_girls.items():
+        for datas in value:
+            data_dict[key][datas[0]] = mise_en_liste_constantes(datas[1], datas[2])
 
 mise_en_liste_donnees('mesures.csv')
 
@@ -144,71 +112,41 @@ import matplotlib.pyplot as plt
 # Définition de la Figure
 plt.figure(1)
 
+# Fonction de créationn d'un graphique
+def creer_graphique(emplacement, type, place_legend, donnees, marker_type, marker_color, label_x, label_y, liste_axe_y):
+    global ages_donnees
+
+    plt.subplot(1, 3, emplacement)
+
+    line1, line2, line3, line4, line5 = plt.plot(
+        ages, data_dict[type]['05'], '#448abd',
+        ages, data_dict[type]['25'], '#f29739', 
+        ages, data_dict[type]['50'], '#59a94a',
+        ages, data_dict[type]['75'], '#cf4b3e',
+        ages, data_dict[type]['95'], '#9f82c4'
+        )
+
+    plt.legend([line1, line2, line3, line4, line5], ['5%', '25%', '50%', '75%', '95%'], loc = place_legend)
+
+    plt.scatter(ages_donnees, donnees, marker = marker_type, color = marker_color)
+
+    plt.ylabel(label_y)
+    plt.xlabel(label_x)
+
+    axes = plt.gca()
+    axes.xaxis.set_ticks(range(0,len(ages),10))
+    axes.yaxis.set_ticks(liste_axe_y)
+    axes.xaxis.grid(True, color = '#bdbdbd')
+    axes.yaxis.grid(True, color = '#bdbdbd')
+
 # Définition du sous graphique 1
-plt.subplot(1,3,1)
-
-line1, line2, line3, line4, line5 = plt.plot(ages, weights_05, '#448abd',
-    ages, weights_25, '#f29739', 
-    ages, weights_50, '#59a94a',
-    ages, weights_75, '#cf4b3e',
-    ages, weights_95, '#9f82c4'
-    )
-plt.legend([line1, line2, line3, line4, line5], ['5%', '25%', '50%', '75%', '95%'], loc = 'upper left')
-
-plt.scatter(ages_donnees, weights_donnees, marker = 'o', color = 'black')
-
-plt.ylabel("Poids en kg")
-plt.xlabel("Age en mois")
-
-axes = plt.gca()
-axes.xaxis.set_ticks(range(0,len(ages),10))
-axes.yaxis.set_ticks([2.5, 5.0, 7.5, 10.0, 12.5, 15.0, 17.5, 20.0, 22.5])
-axes.xaxis.grid(True, color = '#bdbdbd')
-axes.yaxis.grid(True, color = '#bdbdbd')
+creer_graphique(1, 'weights', 'upper left', weights_donnees, 'o', 'black', "Age en mois", "Poids en kg", [2.5, 5.0, 7.5, 10.0, 12.5, 15.0, 17.5, 20.0, 22.5])
 
 # Définition du sous graphique 2
-plt.subplot(1,3,2)
-
-line1, line2, line3, line4, line5 = plt.plot(ages, heights_05, '#448abd',
-    ages, heights_25, '#f29739', 
-    ages, heights_50, '#59a94a',
-    ages, heights_75, '#cf4b3e',
-    ages, heights_95, '#9f82c4'
-    )
-plt.legend([line1, line2, line3, line4, line5], ['5%', '25%', '50%', '75%', '95%'], loc = 'upper left')
-
-plt.scatter(ages_donnees, heights_donnees, marker = 'o', color = 'black')
-
-plt.ylabel("Taille en cm")
-plt.xlabel("Age en mois")
-
-axes = plt.gca()
-axes.xaxis.set_ticks(range(0,len(ages),10))
-axes.yaxis.set_ticks(range(50, 120, 10))
-axes.xaxis.grid(True, color = '#bdbdbd')
-axes.yaxis.grid(True, color = '#bdbdbd')
+creer_graphique(2, 'heights', 'upper left', heights_donnees, 'o', 'black', "Age en mois", "Taille en cm", range(50, 120, 10))
 
 # Définition du sous graphique 3
-plt.subplot(1,3,3)
-
-line1, line2, line3, line4, line5 = plt.plot(ages, skulls_05, '#448abd',
-    ages, skulls_25, '#f29739', 
-    ages, skulls_50, '#59a94a',
-    ages, skulls_75, '#cf4b3e',
-    ages, skulls_95, '#9f82c4'
-    )
-plt.legend([line1, line2, line3, line4, line5], ['5%', '25%', '50%', '75%', '95%'], loc = 'lower right')
-
-plt.scatter(ages_donnees, skulls_donnees, marker = 'o', color = 'black')
-
-plt.ylabel("Périmètre cranien en cm")
-plt.xlabel("Age en mois")
-
-axes = plt.gca()
-axes.xaxis.set_ticks(range(0,len(ages),10))
-axes.yaxis.set_ticks(range(35, 55, 5))
-axes.xaxis.grid(True, color = '#bdbdbd')
-axes.yaxis.grid(True, color = '#bdbdbd')
+creer_graphique(3, 'skulls', 'lower right', skulls_donnees, 'o', 'black', "Age en mois", "Périmètre cranien en cm", range(35, 55, 5))
 
 # Affichage des graphiques
 plt.show()
