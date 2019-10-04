@@ -43,37 +43,32 @@ def mise_en_liste_constantes(csv_file_path, col):
     index = 0
     temp_liste = []
 
-    csv_file = open('constantes-nourrissons/' + csv_file_path, "r")
-    try:
-        csv_reader = csv.reader(csv_file, delimiter=';')
-        for row in csv_reader:
-            if index > 0:
-                temp_liste.append(float(row[col-1]))
-            index += 1
-    except:
-        print(f"Sortie sur erreur !")
-    finally:
-        csv_file.close()
-        return temp_liste
+    with open('constantes-nourrissons/' + csv_file_path, "r") as csv_file:
+        try:
+            for row in csv.reader(csv_file, delimiter=';'):
+                if index > 0:
+                    temp_liste.append(float(row[col-1]))
+                index += 1
+        except:
+            print("Sortie sur erreur !")
+        finally:
+            return temp_liste
 
 def mise_en_liste_donnees(csv_file_path):
     index_csv = 0
     
     global mesures_csv
 
-    csv_file = open(csv_file_path, "r")
-    try:
-        csv_reader = csv.reader(csv_file, delimiter=';')
-        for row in csv_reader:
-            if index_csv > 0:
-                mesures_csv['mois'].append(int(row[0]))
-                for k,v in {'weights': 1, 'heights': 2, 'skulls': 3}.items():
-                    mesures_csv[k].append(float(row[v]))
-            index_csv += 1
-    except:
-        print(f"Sortie sur erreur !")
-    finally:
-        csv_file.close()
+    with open(csv_file_path, "r") as csv_file:
+        try:
+            for row in csv.reader(csv_file, delimiter=';'):
+                if index_csv > 0:
+                    mesures_csv['mois'].append(int(row[0]))
+                    for k,v in {'weights': 1, 'heights': 2, 'skulls': 3}.items():
+                        mesures_csv[k].append(float(row[v]))
+                index_csv += 1
+        except:
+            print("Sortie sur erreur !")
 
 # Demande à l'utilisateur d'entrer le genre
 genre = entrer_genre()
